@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title> CAPTRA </title>
+		<meta charset="utf-8" />
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+        <meta name="viewport" content="width=1000">
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-89797207-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+
+      <meta property="og:url"           content="https://yijiaweng.github.io/CAPTRA/" />
+	    <meta property="og:type"          content="website" />
+	    <meta property="og:title"         content="CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds" />
+	    <meta property="og:description"   content="In this work, we tackle the problem of category-level online pose tracking of objects from point cloud sequences. For the first time,  we propose a unified framework that can handle 9DoF pose tracking for novel rigid object instances as well as per-part pose tracking for articulated objects from known categories. Here the 9DoF pose, comprising 6D pose and 3D size, is equivalent to a 3D amodal bounding box representation with free 6D pose. Given the depth point cloud at the current frame and the estimated pose from the last frame, our novel end-to-end pipeline learns to accurately update the pose. Our pipeline is composed of three modules: 1) a pose canonicalization module that normalizes the pose of the input depth point cloud; 2) RotationNet, a module that directly regresses small interframe delta rotations; and 3) CoordinateNet, a module that predicts the normalized coordinates and segmentation, enabling analytical computation of the 3D size and translation. Leveraging the small pose regime in the pose-canonicalized point clouds, our method integrates the best of both worlds by combining dense coordinate prediction and direct rotation regression, thus yielding an end-to-end differentiable pipeline optimized for 9DoF pose accuracy (without using non-differentiable RANSAC). Our extensive experiments demonstrate that our method achieves new state-of-the-art performance on category-level rigid object pose (NOCS-REAL275) and articulated object pose benchmarks (SAPIEN, BMVC) at the fastest FPS $\sim 12$. " />
+	    <meta property="og:image" content="images/teaser.png" />
+
+	</head>
+	<body id="top">
+
+		<!-- Main -->
+			<div id="main" style="padding-bottom:1em; padding-top: 5em; width: 60em; max-width: 70em; margin-left: auto; margin-right: auto;">
+					<section id="four">
+						
+						<h1 style="text-align: center; margin-bottom: 10px;"><font color="4e79a7">CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds</font></h1>
+						<!--<h3 style="text-align: center; margin-bottom: 0;"><font color="4ea9a7"></font></h3>-->
+						<!--<section>
+							<div class="box alt" style="margin-top: 2em;" >
+								<div class="row 50% uniform" style="width: 80%; margin-left: 35%">
+									<div class="2u" style="font-size: 1.0em; text-align: center;">
+									<a href="paper.pdf" style="border-bottom: none;">
+									<span style="margin-bottom: 0.5em;">
+									<img src="images/icons/paper.png" height="70px"/>
+									</span>
+									Paper</a>
+									</div>
+									<div class="2u" style="font-size: 1.0em; text-align: center;">
+									<a href="https://github.com/halfsummer11/CAPTRA" style="border-bottom: none;">
+									<span style="margin-bottom: 0.5em;">
+									<img src="images/icons/code.png" height="70px"/>
+									</span>
+									Code</a>
+									</div>
+							</div>
+						</section>-->
+
+
+						<span class="center"><img src="images/teaser.png" width="100%"></span>
+						<p style="text-align:left; width: 100%; margin-left: 0%">
+						<b>Figure 1</b>: Our method tracks 9DoF category-level poses (3D rotation, 3D translation, and 3D size) of novel rigid objects as well as parts in articulated objects from live point cloud streams. We demonstrate: 
+    (a) our method can reliably track rigid object poses from the challenging NOCS-REAL275 dataset; 
+    (b) our method can perfectly track articulated objects with big global and articulated motions from the SAPIEN datasets;
+    (c) trained only on SAPIEN, our model can directly generalize to real laptops from BMVC dataset. In all cases, our method significantly outperforms the previous state-of-the-arts and baselines.
+    Here we visualize the estimated 9DoF poses as 3D amodal bounding boxes: green boxes indicate in tracking whereas red boxes indicate off tracking. </p>
+						<section>
+							<div class="box alt" style="margin-bottom: 2em;" >
+								<div class="row 50% uniform" style="width: 80%; margin-left: 35%">
+									<div class="2u" style="font-size: 1.0em; text-align: center;">
+									<a href="paper.pdf" style="border-bottom: none;">
+									<span style="margin-bottom: 0.5em;">
+									<img src="images/icons/paper.png" height="70px"/>
+									</span>
+									Paper</a>
+									</div>
+									<div class="2u" style="font-size: 1.0em; text-align: center;">
+									<a href="https://github.com/halfsummer11/CAPTRA" style="border-bottom: none;">
+									<span style="margin-bottom: 0.5em;">
+									<img src="images/icons/code.png" height="70px"/>
+									</span>
+									Code</a>
+									</div>
+							</div>
+						</section>
+
+
+						   
+						<h3>Video</h3>
+            			<iframe width="784" height="441" src="https://www.youtube.com/embed/JFPcOHCH2O0?autoplay=0&amp;controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
+						<hr style="margin-top: 2em;">
+						<h3>Abstract</h3>
+						<p style="text-align:left; margin-top: -20px"> &nbsp;&nbsp;&nbsp;&nbsp;In this work, we tackle the problem of category-level online pose tracking of objects from point cloud sequences. For the first time,  we propose a unified framework that can handle 9DoF pose tracking for novel rigid object instances as well as per-part pose tracking for articulated objects from known categories. Here the 9DoF pose, comprising 6D pose and 3D size, is equivalent to a 3D amodal bounding box representation with free 6D pose. Given the depth point cloud at the current frame and the estimated pose from the last frame, our novel end-to-end pipeline learns to accurately update the pose. Our pipeline is composed of three modules: 1) a pose canonicalization module that normalizes the pose of the input depth point cloud; 2) <b>RotationNet</b>, a module that directly regresses small interframe delta rotations; and 3) <b>CoordinateNet</b>, a module that predicts the normalized coordinates and segmentation, enabling analytical computation of the 3D size and translation. Leveraging the small pose regime in the pose-canonicalized point clouds, our method integrates the best of both worlds by combining dense coordinate prediction and direct rotation regression, thus yielding an end-to-end differentiable pipeline optimized for 9DoF pose accuracy (without using non-differentiable RANSAC). Our extensive experiments demonstrate that our method achieves new state-of-the-art performance on category-level rigid object pose (NOCS-REAL275) and articulated object pose benchmarks (SAPIEN, BMVC) at the fastest FPS ~12. </p>
+
+						
+						<hr style="margin-top: 2em;">
+						<h3>Method Overview</h3>
+						<span class="center"><img src="images/method.png" width="100%"></span>
+						<p style="text-align:left; width: 100%; margin-left: 0%">
+						<b>Figure 2</b>: Our end-to-end differentiable pose tracking pipeline takes as inputs a depth point cloud of an M-part object along with its per-part scales, rotations, and translations estimated from the last frame. We first adopt per-part pose canonicalization to transform the depth points using the inverse estimated pose and generate M pose canonicalized point clouds. The canonicalized point clouds will be fed into RotationNet for per-part rotation estimation, as well as CoordinateNet for part segmentation and normalized coordinate predictions, which are used to compute the updated scales and translations. When RGB images are available, segmentation can be replaced by the results from the off-the-shelf image detectors for better accuracy. Such a pipeline can be naturally adapted to rigid objects when M=1.</p>
+
+						
+						<hr style="margin-top: 2em;">
+						<h3>Results</h3>
+
+						<h4>Rigid Object Pose Tracking</h4>
+						<span class="center"><img src="images/results/rigid_1.gif" width="100%"></span>
+						<span class="center"><img src="images/results/rigid_2.gif" width="100%"></span>
+						<p style="text-align: left; width: 90%; margin-left: 5%"><b>Result visualization on NOCS-REAL275 dataset.</b> Here we compare our method with the state-of-the-art category-level rigid object pose tracking method, 6-PACK. <font color="33CC33">Green</font> bounding boxes indicate on track (pose error ≤ 10º10cm), <font color="FF0000">red</font> ones indicate losing track (pose error &gt; 10º10cm).</p>
+
+
+						<h4>Articulated Object Pose Tracking</h4>
+						<span class="center"><img src="images/results/arti_demo.gif" width="90%"></span>
+						<p style="text-align: left; width: 90%; margin-left: 0%"><b>Result visualization on our SAPIEN articulated object dataset.</b> <font color="33CC33">Green</font> bounding boxes indicate on track (pose error ≤ 3º3cm)</p>
+						<span class="center"><img src="images/results/arti_comparison.gif" width="90%"></span>
+						<p style="text-align: left; width: 90%; margin-left: 0%"><b>Result visualization on our SAPIEN articulated object dataset.</b> Here we compare our method with the oracle version of the state-of-the-art category-level articulated object pose estimation method, ANCSH, which assumes the availability of ground truth part masks. <font color="33CC33">Green</font> bounding boxes indicate on track (pose error ≤ 3º3cm), <font color="FF0000">red</font> ones indicate losing track (pose error &gt; 3º3cm).</p>
+
+						<span class="center"><img src="images/results/bmvc_ours.gif" width="45%"> <img src="images/results/real_drawers_ours.gif" width="45%"></span>
+						<p style="text-align: left; width: 90%; margin-left: 0%"><b>Result visualization on real data.</b> Our models, trained on synthetic data only, can directly generalize to real data, assuming the availability of object masks but not part masks. Left: results on a laptop trajectory from BMVC dataset. Right: results on a real drawers trajectory we captured, where a Kinova Jaco2 arm pulls out the top drawer.</p>
+
+
+						<hr style="margin-top: 2em;">
+						<h3>Paper</h3>
+						<p style="margin-bottom: 1em;">Latest version (April 9, 2021): <a href="https://arxiv.org/pdf/2104.?????.pdf">arXiv:2104.???? in cs.CV</a> or <a href="paper.pdf">here</a>.
+						<div class="12u$"><a href="https://arxiv.org/pdf/2104.????.pdf"><span class="image fit" style="border: 1px solid; border-color: #888888;"><img src="images/paper-thumbnail.png" alt="" /></span></a></div>
+
+						<hr>
+						<h3>Team</h3>
+						<section>
+							<div class="box alt" style="margin-bottom: 1em;">
+								<div class="row 50% uniform" style="width: 80%;">
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="http://yijiaweng.github.io/"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/yijia.png" alt="" style="border-radius: 50%;" /></span>Yijia Weng
+											<sup>1,2*</sup></a></div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="http://ai.stanford.edu/~hewang/"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/he.png" alt="" style="border-radius: 50%;" /></span>He Wang<sup>3*†</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://github.com/bamboosdu"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/qiang.png" alt="" style="border-radius: 50%;" /></span>Qiang Zhou<sup>4</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://yzqin.github.io"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/yuzhe.png" alt="" style="border-radius: 50%;" /></span>Yuzhe Qin<sup>5</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://geometry.stanford.edu/member/duanyq19/index.html"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/yueqi.png" alt="" style="border-radius: 50%;" /></span>Yueqi Duan<sup>3</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://fqnchina.github.io"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/qingnan.png" alt="" style="border-radius: 50%;" /></span>Qingnan Fan<sup>3</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://cfcs.pku.edu.cn/baoquan"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/baoquan.png" alt="" style="border-radius: 50%;" /></span>Baoquan Chen<sup>1,2</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://cseweb.ucsd.edu/~haosu"><span class="image fit" style="margin-bottom: 0.5em;"><img
+													src="images/avatars/hao.png" alt="" style="border-radius: 50%;" /></span>Hao Su<sup>5</sup></a>
+									</div>
+									<div class="2u" style="font-size: 0.7em; line-height: 1.5em; text-align: center;"><a
+											href="https://geometry.stanford.edu/member/guibas/index.html"><span class="image fit"
+												style="margin-bottom: 0.5em;"><img src="images/avatars/leo.png" alt=""
+													style="border-radius: 50%;" /></span>Leonidas J. Guibas<sup>3</sup></a></div>
+								</div>
+							</div>
+						</section>
+						<sup>1</sup> CFCS, Peking University 		&nbsp;&nbsp;&nbsp;&nbsp;
+						<sup>2</sup> AICFVE, Beijing Film Academy 	&nbsp;&nbsp;&nbsp;&nbsp;
+						<sup>3</sup> Stanford University 			&nbsp;&nbsp;&nbsp;&nbsp;
+						<sup>4</sup> Shandong University 			&nbsp;&nbsp;&nbsp;&nbsp;
+						<sup>5</sup> UCSD 							&nbsp;&nbsp;&nbsp;&nbsp;
+						<p style="margin-bottom: 1em;"> *: equal contribution, †: corresponding author
+
+						<div class="row" style="margin-top: 1em">
+							<div class="12u$ 1u$(xsmall)">
+								<h3>Bibtex</h3>
+								<pre style="text-align:left;"><code>@article{weng2021captra,
+title={CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds},
+author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J},
+journal={arXiv preprint arXiv:2104.????},
+year={2021}
+}
+							</code></pre>
+							</div>
+						</div>
+
+
+						<hr/ style="margin-top: 1em">
+				        <h3>Acknowledgements</h3>
+								<p>This research is supported by a grant from the SAIL-Toyota Center for AI Research, a grant from the Samsung GRO program, NSF grant IIS-1763268, a Vannevar Bush Faculty fellowship, the support of the Stanford UGVR program, and gifts from Kwai and Qualcomm.</p>
+
+
+						<hr/ style="margin-top: 1em">
+				        <h3>Contact</h3>
+				        <p>If you have any questions, please feel free to contact <a href="http://yijiaweng.github.io/">Yijia Weng</a> at yijiaw_at_stanford_edu and <a href="http://ai.stanford.edu/~hewang/">He Wang</a> at hewang_at_stanford.edu </p>
+						<hr/>
+
+					</section>
+			</div>
+
+			<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+	</body>
+</html>
