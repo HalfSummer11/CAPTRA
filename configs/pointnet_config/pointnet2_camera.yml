@@ -1,0 +1,46 @@
+sa1:
+  npoint: 512
+  radius_list: [0.05, 0.1, 0.2]
+  nsample_list: [32, 64, 128]
+  # in_channel: 3
+  mlp_list:
+    - [32, 32, 64]
+    - [64, 64, 128]
+    - [64, 96, 128]
+
+lstm1:
+  radius: 0.4
+  nsample: 64
+
+sa2:
+  npoint: 128
+  radius_list: [0.2, 0.4]
+  nsample_list: [64, 128]
+  # in_channel: 320
+  mlp_list:
+    - [128, 128, 256]
+    - [128, 196, 256]
+
+lstm2:
+  radius: 0.8
+  nsample: 64
+
+flow1:
+  radius: 0.35
+  nsample: 32
+  mlp: [256, 256, 512]
+
+
+sa3:
+  mlp: [256, 512, 1024]
+
+fp3:  # sa3 + sa2
+  mlp: [256, 256]
+
+fp2: # fp3 + sa1
+  mlp: [256, 128]
+
+fp1: # fp2 + init
+  mlp: [128, 128]
+
+

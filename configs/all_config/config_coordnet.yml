@@ -1,0 +1,79 @@
+# dirs
+experiment_dir: ../runs/exp_tmp
+
+# data info
+
+obj_config: obj_info.yml  # name of the .yml file in data_proc
+obj_category: laptop
+
+# frequency
+freq:
+    save: 1
+    summary: 200  # per 200 iter
+
+# point cloud info
+dataset_length:
+num_points: 4096
+data_radius: 0.6
+
+pointnet_cfg:
+    camera: pointnet2_camera.yml
+
+# network options
+network:
+    type: canon_coord
+    backbone_out_dim: 128
+    nocs_head_dims: [128]
+    pwm_num: 128
+
+
+pose_perturb:
+    type: normal
+    s: 0.02
+    r: 5.0
+    t: 0.03
+
+
+# loss weights
+loss_weight:
+    rloss: 0.0
+    tloss: 5.0
+    sloss: 5.0
+    corner_loss: 10.0
+    nocs_loss: 10.0
+    seg_loss: 1.0
+    nocs_dist_loss: 5.0
+    nocs_pwm_loss: 5.0
+
+pose_loss_type:
+    r: frob
+    s: l1
+    t: l1
+    point: l1
+
+
+# optimization options
+optimizer: Adam
+weight_decay: 0.0001
+learning_rate: 0.001
+lr_policy: step
+lr_gamma: 0.5 # lr decay rate
+lr_step_size: 20
+lr_clip: 0.00001 # min lr
+
+# bn momentum adjustment
+momentum_original: 0.1
+momentum_decay: 0.5
+momentum_step_size: 20  # = lr_step_size
+momentum_min: 0.01
+
+# training options
+weight_init: xavier
+batch_size: 12
+total_epoch: 250
+
+
+# device
+cuda_id: 0
+
+
