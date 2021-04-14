@@ -113,7 +113,7 @@ mkdir nocs_data && cd nocs_data
   bash nocs_preproc.sh # the actual data preprocessing
   ```
 
-+ After the steps above, the folder should look like [File Structure - Dataset Folder Structure](#File Structure).
++ After the steps above, the folder should look like [File Structure - Dataset Folder Structure](#dataset-folder-structure).
 
 ### SAPIEN Synthetic Articulated Object Dataset
 
@@ -157,7 +157,7 @@ mkdir sapien_data && cd sapien_data
 
   ```bash
   runs
-  ├── 1_bottle_rot 		#	RotationNet for the bottle category
+  ├── 1_bottle_rot 	# RotationNet for the bottle category
   ├── 1_bottle_coord 	# CoordinateNet for the bottle category
   ├── 2_bowl_rot 
   └── ...
@@ -171,7 +171,7 @@ mkdir sapien_data && cd sapien_data
   bash scripts/track/nocs/1_bottle.sh
   ```
 
-+ The predicted pose will be saved under the experiment folder `1_bottle_rot` (see [File Structure - Experiment Folder Structure](#File Structure)).
++ The predicted pose will be saved under the experiment folder `1_bottle_rot` (see [File Structure - Experiment Folder Structure](#experiment-folder-structure)).
 
 + *To test the tracking speed for articulated objects in SAPIEN, make sure to set `--batch_size=1` in the script. You may use `--dataset_length=500` to avoid running through the whole test set.*
 
@@ -210,18 +210,18 @@ Below is an overview of our code. Only the most relevant folders/files are shown
 ```bash
 CAPTRA
 ├── configs		# configuration files
-│   ├── all_config			# experiment configs
+│   ├── all_config		# experiment configs
 │   ├── pointnet_config 	# pointnet++ configs (radius, etc)
-│   ├── obj_config			# dataset configs
-│   └── config.py			# parser
+│   ├── obj_config		# dataset configs
+│   └── config.py		# parser
 ├── datasets	# data preprocessing & dataset definitions
-│   ├── arti_data			# articulated data
+│   ├── arti_data		# articulated data
 │   │   └── ...
-│   ├── nocs_data			# NOCS-REAL275 data
+│   ├── nocs_data		# NOCS-REAL275 data
 │   │   ├── ...
 │   │   └── preproc_nocs	# prepare nocs data
-│   └── ...					# utility functions
-├── pose_utils	# utility functions for pose/bounding box computation
+│   └── ...			# utility functions
+├── pose_utils		# utility functions for pose/bounding box computation
 ├── utils.py
 ├── misc		# evaluation and visualization
 │   ├── eval
@@ -237,7 +237,7 @@ CAPTRA
     │   ├── loss.py
     │   ├── networks.py		# defines CoordinateNet and RotationNet
     │   └── model.py		# defines models for training/tracking
-    ├── trainer.py			# training agent
+    ├── trainer.py	# training agent
     ├── parse_args.py		# parse arguments for train/test
     ├── test.py		# test
     ├── train.py	# train
@@ -271,7 +271,7 @@ For each experiment, a dedicated folder in `captra/runs` is organized as follows
 
 ```bash
 nocs_data
-├── nocs_model_corners	# instance bounding box information	
+├── nocs_model_corners		# instance bounding box information	
 ├── nocs_full		 	# original NOCS data, organized in frames (not object-centric)
 │   ├── real_test
 │   │   ├── scene_1
@@ -280,26 +280,26 @@ nocs_data
 │   ├── train
 │   └── val			
 ├── instance_list*		# collects each instance's occurences in nocs_full/*/
-├── render*				# per-instance segmented data for training
+├── render*			# per-instance segmented data for training
 ├── preproc**			# cashed data 	
 └── splits**			# data lists for train/test	
 *: generated after data-preprocessing
 **: generated during training/testing
 
 sapien_data
-├── urdf				# instance URDF models
+├── urdf			# instance URDF models
 ├── render_seq			# testing trajectories
 ├── render**			# single-frame training/validation data
 ├── preproc_seq*		# cashed testing trajectory data	
 ├── preproc**			# cashed testing trajectory data
-└── splits*				# data lists for train/test	
+└── splits*			# data lists for train/test	
 *: generated during training/testing
 **: training
 ```
 
 
 
-##Acknowledgements
+## Acknowledgements
 
 This implementation is based on the following repositories. We thank the authors for open sourcing their great works! 
 
