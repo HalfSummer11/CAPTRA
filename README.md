@@ -1,5 +1,3 @@
-
-
 # CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds
 
 ![teaser](images/teaser.png)
@@ -215,34 +213,34 @@ CAPTRA
 │   ├── all_config			# experiment configs
 │   ├── pointnet_config 	# pointnet++ configs (radius, etc)
 │   ├── obj_config			# dataset configs
-│   └── config.py				# parser
+│   └── config.py			# parser
 ├── datasets	# data preprocessing & dataset definitions
-│   ├── arti_data				# articulated data
+│   ├── arti_data			# articulated data
 │   │   └── ...
-│   ├── nocs_data				# NOCS-REAL275 data
+│   ├── nocs_data			# NOCS-REAL275 data
 │   │   ├── ...
 │   │   └── preproc_nocs	# prepare nocs data
-│   └── ...							# utility functions		
+│   └── ...					# utility functions
 ├── pose_utils	# utility functions for pose/bounding box computation
 ├── utils.py
-├── misc			# evaluation and visualization
+├── misc		# evaluation and visualization
 │   ├── eval
 │   └── visualize
 ├── scripts		# scripts for training/testing
 └── network		# main part
-    ├── data	# torch dataloader definitions
-    ├── models					# model definition
+    ├── data		# torch dataloader definitions
+    ├── models		# model definition
     │   ├── pointnet_lib
     │   ├── pointnet_utils.py
     │   ├── backbones.py
     │   ├── blocks.py		# the above defines backbone/building blocks
     │   ├── loss.py
-    │   ├── networks.py	# defines CoordinateNet and RotationNet
+    │   ├── networks.py		# defines CoordinateNet and RotationNet
     │   └── model.py		# defines models for training/tracking
     ├── trainer.py			# training agent
     ├── parse_args.py		# parse arguments for train/test
-    ├── test.py					# test
-    ├── train.py				# train
+    ├── test.py		# test
+    ├── train.py	# train
     └── train_nocs_mix.py	# finetune with a mixture of synthetic/real data
 ```
 
@@ -257,14 +255,14 @@ For each experiment, a dedicated folder in `captra/runs` is organized as follows
 ├── log		# training/testing log files
 │   └── log.txt
 ├── ckpt	# model checkpoints
-│   ├── model_0001.pt		
-│   └── ...						
+│   ├── model_0001.pt
+│   └── ...
 └── results
-    ├── data*	# per-trajectory raw network outputs 
+    ├── data*		# per-trajectory raw network outputs 
     │   ├── bottle_shampoo_norm_scene_4.pkl
     │   └── ...
-    ├── err.csv**		# per-frame error	
-    └── err.pkl**		# per-frame error
+    ├── err.csv**	# per-frame error	
+    └── err.pkl**	# per-frame error
 *: generated after testing with --save
 **: generated after running misc/eval/eval.py
 ```
@@ -274,7 +272,7 @@ For each experiment, a dedicated folder in `captra/runs` is organized as follows
 ```bash
 nocs_data
 ├── nocs_model_corners	# instance bounding box information	
-├── nocs_full		 		# original NOCS data, organized in frames (not object-centric)
+├── nocs_full		 	# original NOCS data, organized in frames (not object-centric)
 │   ├── real_test
 │   │   ├── scene_1
 │   │   └── ...
@@ -282,19 +280,19 @@ nocs_data
 │   ├── train
 │   └── val			
 ├── instance_list*		# collects each instance's occurences in nocs_full/*/
-├── render*					# per-instance segmented data for training
-├── preproc**				# cashed data 	
-└── splits**				# data lists for train/test	
+├── render*				# per-instance segmented data for training
+├── preproc**			# cashed data 	
+└── splits**			# data lists for train/test	
 *: generated after data-preprocessing
 **: generated during training/testing
 
 sapien_data
-├── urdf						# instance URDF models
-├── render_seq		 		# testing trajectories
-├── render**					# single-frame training/validation data
-├── preproc_seq*				# cashed testing trajectory data	
-├── preproc**					# cashed testing trajectory data
-└── splits*					# data lists for train/test	
+├── urdf				# instance URDF models
+├── render_seq			# testing trajectories
+├── render**			# single-frame training/validation data
+├── preproc_seq*		# cashed testing trajectory data	
+├── preproc**			# cashed testing trajectory data
+└── splits*				# data lists for train/test	
 *: generated during training/testing
 **: training
 ```
@@ -310,4 +308,5 @@ This implementation is based on the following repositories. We thank the authors
 + [Normalized Object Coordinate Space for Category-Level 6D Object Pose and Size Estimation: hughw19/NOCS_CVPR2019](https://github.com/hughw19/NOCS_CVPR2019)
 
 + [Category-Level Articulated Object Pose Estimation: dragonlong/articulated-pose](https://github.com/dragonlong/articulated-pose)
+
 
