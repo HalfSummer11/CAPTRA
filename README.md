@@ -81,7 +81,7 @@ If you find our work useful in your research, please consider citing:
 
   + Make sure to point `basepath` in `CAPTRA/configs/obj_config/obj_info_*.yml` to your dataset if you put it at a different location.
 
-#### NOCS-REAL275
+### NOCS-REAL275
 
 ```bash
 mkdir nocs_data && cd nocs_data
