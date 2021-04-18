@@ -114,8 +114,18 @@
 						<span class="center"><img src="images/results/arti_comparison.gif" width="90%"></span>
 						<p style="text-align: left; width: 90%; margin-left: 0%"><b>Result visualization on our SAPIEN articulated object dataset.</b> Here we compare our method with the oracle version of the state-of-the-art category-level articulated object pose estimation method, ANCSH, which assumes the availability of ground truth part masks. <font color="33CC33">Green</font> bounding boxes indicate on track (pose error ≤ 3º3cm), <font color="FF0000">red</font> ones indicate losing track (pose error &gt; 3º3cm).</p>
 
-						<span class="center"><img src="images/results/bmvc_ours.gif" width="45%"> <img src="images/results/real_drawers_ours.gif" width="45%"></span>
-						<p style="text-align: left; width: 90%; margin-left: 0%"><b>Result visualization on real data.</b> Our models, trained on synthetic data only, can directly generalize to real data, assuming the availability of object masks but not part masks. Left: results on a laptop trajectory from BMVC dataset. Right: results on a real drawers trajectory we captured, where a Kinova Jaco2 arm pulls out the top drawer.</p>
+						<!--<span class="center"><img src="images/results/bmvc_ours.gif" width="52%"> <img src="images/results/real_scissors.gif" width="39%"></span>
+						<span class="center"><img src="images/results/real_drawers_ours.gif" width="52%"></span>-->
+						<div style="row">
+							<div style="float:left; width: 52%;">
+								<img src="images/results/bmvc_ours.gif" width="100%">
+								<img src="images/results/real_drawers.gif" width="100%">
+							</div>
+							<div style="float:left; margin-left: 10px; width: 39%;">
+								<img src="images/results/real_scissors.gif" width="100%" style="margin-top: 33%">
+							</div>
+						</div>
+						<p style="clear: both; text-align: left; width: 94%; margin-left: 0%"><b>Result visualization on real data.</b> Our models, trained on synthetic data only, can directly generalize to real data, assuming the availability of object masks but not part masks. Top-left: results on a laptop trajectory from BMVC dataset. Bottom-left: results on a real drawers trajectory we captured, where a Kinova Jaco2 arm pulls out the top drawer. Right: results on a real scissors trajectory we captured.</p>
 
 
 						<hr style="margin-top: 2em;">
