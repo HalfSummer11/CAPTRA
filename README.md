@@ -29,6 +29,7 @@ If you find our work useful in your research, please consider citing:
 ## Updates
 
 + [2021/04/14] Released code, data, and pretrained models for testing & evaluation.
++ [2021/04/22] Released code and data for training.
 
 ## Installation
 
@@ -115,22 +116,105 @@ mkdir nocs_data && cd nocs_data
 
 + After the steps above, the folder should look like [File Structure - Dataset Folder Structure](#File Structure).
 
+### Train
+
++ Download and unzip "CAMERA Dataset - Training/Test" and "Real Dataset - Training" from [the original NOCS dataset](https://github.com/hughw19/NOCS_CVPR2019#datasets) under `nocs_data/nocs_full`
+
+  ```bash
+  # current path relative to project root (captra): data/nocs_data/nocs_full
+  wget http://download.cs.stanford.edu/orion/nocs/camera_train.zip
+  unzip camera_train.zip
+  wget http://download.cs.stanford.edu/orion/nocs/camera_val25K.zip
+  unzip camera_val25K.zip
+  wget http://download.cs.stanford.edu/orion/nocs/real_train.zip
+  unzip real_train.zip
+  ```
+
+  + By now, `nocs_full` should be structured as follows. Note that the depth image (`*_depth.png`) only contains the synthetic foreground objects. For our purpose, we need a complete depth image composing both the synthetic foreground and the real background.
+
+    ```bash
+    nocs_full
+    ├── real_test
+    ├── real_train 
+    ├── train	
+    │   ├── 00000
+    │   │   ├── 0000_color.png, 0000_coord.png, 0000_depth.png, 0000_mask.png, 0000_meta.txt
+    │   │   ├── 0001_color.png, ...
+    │   │   └── ...
+    │   ├── 00001
+    │   └── ...
+    └── val				# same structure as train
+    ```
+  
++ Download and unzip "CAMERA Dataset - Composed_depths" from [the original NOCS dataset](https://github.com/hughw19/NOCS_CVPR2019#datasets) under `nocs_data`.  
+
+  ```bash
+  cd ../ # current path relative to project root (captra): data/nocs_data
+  wget http://download.cs.stanford.edu/orion/nocs/camera_composed_depth.zip
+  unzip camera_composed_depth.zip
+  ```
+
+  This will result in a folder named `camera_full_depths`, structured as follows.
+
+  ```bash
+  camera_full_depths
+  ├── train	
+  │   ├── 00000
+  │   │   ├── 0000_composed.png # depth image containing both synthetic foreground objects 
+  │   │   │									 # and the real background
+  │   │   ├── 0001_composed.png # rendered object normalized coordinates
+  │   │   └── ...
+  │   ├── 00001
+  │   └── ...
+  └── val				# same structure as train
+  ```
+  
+  Then copy-merge `camera_full_depths` with `nocs_full`.
+  
+  ```bash
+  # merge camera_full_depth/train/????? to nocs_full/train/?????
+  rsync -arv camera_full_depths/ nocs_full/
+rm -r camera_full_depths
+  ```
+  
++ Generate and run the pre-processing script
+
+  ```bash
+  cd CAPTRA/datasets/nocs_data/preproc_nocs
+  python generate_all.py --data_path ../../../../data/nocs_data --data_type=all --parallel --num_proc=10 > nocs_preproc_all.sh # generate the script for data preprocessing
+  # parallel & num_proc specifies the number of parallel processes in the following procedure
+  bash nocs_preproc_all.sh # the actual data preprocessing
+  ```
+
++ After the steps above, the folder should look like [File Structure - Dataset Folder Structure](#File Structure).
+
 ### SAPIEN Synthetic Articulated Object Dataset
 
 ```bash
 mkdir sapien_data && cd sapien_data
 ```
 
-#### Test
+#### Test 
 
 + Download and unzip [object URDF models](http://download.cs.stanford.edu/orion/captra/sapien_urdf.tar) and [testing trajectories](http://download.cs.stanford.edu/orion/captra/sapien_test.tar) 
 
   ```bash
   wget http://download.cs.stanford.edu/orion/captra/sapien_urdf.tar
   wget http://download.cs.stanford.edu/orion/captra/sapien_test.tar
-  tar -xzvf sapien_urdf.tar
-  tar -xzvf sapien_test.tar
+  tar -xzvf sapien_urdf.tar # urdf
+  tar -xzvf sapien_test.tar # render_seq
   ```
+
+### Train
+
++ Download and unzip [training data](http://download.cs.stanford.edu/orion/captra/sapien_train.tar).
+
+  ```bash
+  wget http://download.cs.stanford.edu/orion/captra/sapien_train.tar
+  tar -xzvf sapien_train.tar # render
+  ```
+
+  
 
 ## Testing & Evaluation
 
@@ -165,7 +249,7 @@ mkdir sapien_data && cd sapien_data
 
 ### Testing
 
-+ To generate pose predictions for a certain category, run the corresponding script in `CAPTRA/scripts` (without further specification, all scripts are run from `CAPTRA`), e.g. for the bottle category from NOCS-REAL275,
++ To generate pose predictions for a certain category, run the corresponding script in `CAPTRA/scripts/track` (without further specification, all scripts are run from `CAPTRA`), e.g. for the bottle category from NOCS-REAL275,
 
   ```bash
   bash scripts/track/nocs/1_bottle.sh
@@ -184,6 +268,34 @@ mkdir sapien_data && cd sapien_data
   ```
 
   
+
+## Training
+
++ To train the CoordinateNet and RotationNet for a certain category, run the corresponding script in `CAPTRA/scripts/train`, e.g. for the bottle category from NOCS-REAL275, scripts can be found in `CAPTRA/scripts/train/nocs/1_bottle.sh`.
+
+  ```bash
+  # RotationNet
+  python network/train.py --config=config_rotnet.yml --obj_config=obj_info_nocs.yml \
+                          --pose_perturb/r=5.0 --pose_perturb/t=0.03 --pose_perturb/s=0.02 \
+                          --batch_size=12 \
+                          --obj_category=1 \
+                          --experiment_dir=../runs/1_bottle_rot_new \
+                          --use_val=real_test \  
+                          --num_workers=2
+  # CoordinateNet
+  python network/train.py --config=config_coordnet.yml --obj_config=obj_info_nocs.yml \
+                          --pose_perturb/r=5.0 --pose_perturb/t=0.03 --pose_perturb/s=0.02 \
+                          --batch_size=12 \
+                          --obj_category=1 \
+                          --experiment_dir=../runs/1_bottle_coord_new \
+                          --use_val=real_test \
+                          --num_workers=2
+  ```
+
++ The output logs and checkpoints will be saved at `1_bottle_rot_new/log`, `1_bottle_rot_new/ckpt`, respectively. (see [File Structure - Experiment Folder Structure](#File Structure)).
+
++ For NOCS dataset, after training the models using synthetic data, we can further finetune them with real training data. To do this, simply replace `train.py` with `train_nocs_finetune.py` in the training script. Use `--syn_n` and `--real_only` to adjust the proportion of real/synthetic training data used in each epoch.
+
 
 ## File Structure
 
@@ -277,7 +389,7 @@ nocs_data
 │   │   ├── scene_1
 │   │   └── ...
 │   ├── real_train
-│   ├── train
+│   ├── train	  		  # see the following
 │   └── val			
 ├── instance_list*		# collects each instance's occurences in nocs_full/*/
 ├── render*				# per-instance segmented data for training
@@ -285,6 +397,22 @@ nocs_data
 └── splits**			# data lists for train/test	
 *: generated after data-preprocessing
 **: generated during training/testing
+
+# Specifically, nocs_data/nocs_full/train (and val) should be structured as follows:
+train	
+├── 00000
+│   ├── 0000_coord.png 		# rendered object normalized coordinates
+│   ├── 0000_depth.png 		# depth image containing synthetic foreground objects only
+│   ├── 0000_mask.png  		# object mask
+│   ├── 0000_meta.txt  		# meta information
+│   ├── 0000_composed.png* # depth image containing both synthetic foreground objects 
+│   │	  							  # and the real background
+│   ├── 0000_pose.pkl**		 # object poses computed from *_coord.png and *_depth.png
+│   └── ...
+├── 00001
+└── ...
+*: generated after copy-merging camera_full_depths with nocs_full
+**: generated after data-preprocessing
 
 sapien_data
 ├── urdf				# instance URDF models

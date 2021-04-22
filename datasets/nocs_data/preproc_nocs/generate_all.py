@@ -28,11 +28,13 @@ def main(root_dset='../../../../data/nocs_data', data_type='all', parallel=True,
 
     parallel_suffix = '' if not parallel else f' --parallel --num_proc={num_proc}'
 
+    """
     for data_type in syn_data:
         cmd = 'python match_table.py' + \
               f' --data_path={pjoin(ori_path, data_type)} --bg_path={ikea_path}' + \
               parallel_suffix
         execute(cmd)
+    """
 
     for data_type in all_data:
         cmd = 'python get_gt_poses.py' + \

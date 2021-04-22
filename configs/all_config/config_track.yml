@@ -20,7 +20,6 @@ obj_category: laptop
 # frequency
 freq:
     save: 1
-    summary: 200  # per 200 iter
 
 # point cloud info
 dataset_length:

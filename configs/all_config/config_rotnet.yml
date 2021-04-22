@@ -10,7 +10,6 @@ obj_category: laptop
 # frequency
 freq:
     save: 1
-    summary: 200  # per 200 iter
 
 # point cloud info
 dataset_length:
@@ -43,14 +42,14 @@ pose_perturb:
 
 # loss weights
 loss_weight:
-    rloss: 20.0
-    tloss: 5.0
-    sloss: 5.0
-    corner_loss: 20.0
-    nocs_loss: 5.0
-    seg_loss: 3.0
-    nocs_dist_loss: 2.5
-    nocs_pwm_loss: 2.5
+    rloss: 10.0
+    tloss: 0.0
+    sloss: 0.0
+    corner_loss: 1.0
+    nocs_loss: 0.0
+    seg_loss: 0.0
+    nocs_dist_loss: 0.0
+    nocs_pwm_loss: 0.0
 
 # optimization options
 optimizer: Adam

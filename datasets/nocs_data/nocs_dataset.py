@@ -86,7 +86,7 @@ def generate_nocs_data(root_dset, mode, obj_category, instance, track_num, frame
         mask = (mask == inst_num)
         full_data['pre_fetched'] = {'depth': depth.astype(np.int16), 'mask': mask}
     else:
-        full_data['pre_fetched'] = None
+        full_data['pre_fetched'] = {}
 
     return full_data
 

@@ -26,10 +26,9 @@ def add_args(parser):
 
     parser.add_argument('--num_points', type=int,  default=None)
     parser.add_argument('--data_radius', type=float,  default=None)
-    parser.add_argument('--dataset_length', type=int,  default=None)
+    parser.add_argument('--dataset_length', type=int,  default=None, help='truncate dataset to check the code quicker')
 
     parser.add_argument('--freq/save', type=int,  default=None, help='ckpt saving frequency in epochs')
-    parser.add_argument('--freq/summary', type=int,  default=None, help='output frequency in iterations')
 
     parser.add_argument('--pointnet_cfg/camera', type=str, default=None)
 

@@ -61,11 +61,8 @@ def main(args):
     def test_all():
         '''testing'''
         test_loss = {}
-        start_t = time.time()
         for i, data in enumerate(test_dataloader):
             pred_dict, loss_dict = trainer.test(data)
-            if i % cfg['freq']['summary'] == 0:
-                print("Test iteration {}/{}, time {}".format(i, len(test_dataloader), time.time() - start_t))
             loss_dict['cnt'] = 1
             add_dict(test_loss, loss_dict)
 
@@ -87,12 +84,8 @@ def main(args):
         train_loss = {}
 
         '''training'''
-        start_t = time.time()
-        total = len(train_dataloader)
         for i, data in enumerate(train_dataloader):
             loss_dict = trainer.update(data)
-            if i % cfg['freq']['summary'] == 0:
-                print("Train iteration {}/{}, time {}".format(i, total, time.time() - start_t))
             loss_dict['cnt'] = 1
             add_dict(train_loss, loss_dict)
 

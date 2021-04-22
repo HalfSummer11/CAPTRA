@@ -3,10 +3,6 @@ import os
 import torch
 import logging
 import sys
-import time
-from tqdm import tqdm
-import numpy as np
-from copy import deepcopy
 from os.path import join as pjoin
 
 base_dir = os.path.dirname(__file__)
@@ -19,14 +15,14 @@ from configs.config import get_config
 from trainer import Trainer
 from parse_args import add_args
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser = add_args(parser)
-    parser.add_argument('--real_only', action='store_true')
-    parser.add_argument('--syn_only', action='store_true')
-    parser.add_argument('--syn_n', type=int, default=1)
-    parser.add_argument('--val_name', type=str, default='real_test')
-    parser.add_argument('--downsample', type=int, default=5)
+    parser.add_argument('--syn_n', type=int, default=1, help='synthetic_data:real_data = syn_n:1 in an epoch')
+    parser.add_argument('--real_only', action='store_true', help='only use real data')
+    parser.add_argument('--use_val', type=str, default='real_test')
+    parser.add_argument('--downsample', type=int, default=5, help='downsample the original test set for quicker eval')
 
     return parser.parse_args()
 
@@ -42,10 +38,10 @@ def main(args):
     log_dir = pjoin(cfg['experiment_dir'], 'log')
     ensure_dirs(log_dir)
 
-    logger = logging.getLogger("TrainNOCSModel")
+    logger = logging.getLogger("TrainModel")
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    file_handler = logging.FileHandler('%s/log.txt' % (log_dir))
+    file_handler = logging.FileHandler('%s/log_finetune.txt' % (log_dir))
     file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
@@ -53,13 +49,10 @@ def main(args):
     log_string(cfg)
 
     '''DATA'''
-    test_dataloader = get_dataloader(cfg, args.val_name, downsampling=args.downsample)
+    test_dataloader = get_dataloader(cfg, args.use_val, downsampling=args.downsample)
 
-    if not args.syn_only:
-        train_real_dataloader = get_dataloader(cfg, 'real_train', shuffle=True)
-        syn_train_len = len(train_real_dataloader) * args.syn_n
-    else:
-        syn_train_len = args.syn_n
+    train_real_dataloader = get_dataloader(cfg, 'real_train', shuffle=True)
+    syn_train_len = len(train_real_dataloader) * args.syn_n
 
     train_syn_dataloader = get_dataloader(cfg, 'train', shuffle=True)
     syn_train_cycle = iter(train_syn_dataloader)
@@ -97,15 +90,14 @@ def main(args):
             cnt = train_loss.pop('cnt')
             log_loss_summary(train_loss, cnt, lambda x, y: log_string('Syn_Train {} is {}'.format(x, y)))
 
-        if not args.syn_only:
-            train_loss = {}
-            for i, data in enumerate(train_real_dataloader):
-                loss_dict = trainer.update(data)
-                loss_dict['cnt'] = 1
-                add_dict(train_loss, loss_dict)
+        train_loss = {}
+        for i, data in enumerate(train_real_dataloader):
+            loss_dict = trainer.update(data)
+            loss_dict['cnt'] = 1
+            add_dict(train_loss, loss_dict)
 
-            cnt = train_loss.pop('cnt')
-            log_loss_summary(train_loss, cnt, lambda x, y: log_string('Real_Train {} is {}'.format(x, y)))
+        cnt = train_loss.pop('cnt')
+        log_loss_summary(train_loss, cnt, lambda x, y: log_string('Real_Train {} is {}'.format(x, y)))
 
         if (epoch + 1) % cfg['freq']['save'] == 0:
             trainer.save()
