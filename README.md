@@ -109,9 +109,12 @@ mkdir nocs_data && cd nocs_data
 
   ```bash
   cd CAPTRA/datasets/nocs_data/preproc_nocs
-  python generate_all.py --data_path ../../../../data/nocs_data --data_type=test_only --parallel --num_proc=10 > nocs_preproc.sh # generate the script for data preprocessing
+  # generate the script for data preprocessing
   # parallel & num_proc specifies the number of parallel processes in the following procedure
-  bash nocs_preproc.sh # the actual data preprocessing
+  python generate_all.py --data_path ../../../../data/nocs_data --data_type=test_only \
+  			 --parallel --num_proc=10 > nocs_preproc.sh 
+  # the actual data preprocessing
+  bash nocs_preproc.sh 
   ```
 
 + After the steps above, the folder should look like [File Structure - Dataset Folder Structure](#dataset-folder-structure).
@@ -154,14 +157,13 @@ mkdir nocs_data && cd nocs_data
   unzip camera_composed_depth.zip
   ```
 
-  This will result in a folder named `camera_full_depths`, structured as follows.
-
+  This will result in a folder named `camera_full_depths`, structured as follows. 
   ```bash
   camera_full_depths
   ├── train	
   │   ├── 00000
   │   │   ├── 0000_composed.png # depth image containing both synthetic foreground objects 
-  │   │   │									 # and the real background
+  │   │   │		        # and the real background
   │   │   ├── 0001_composed.png # rendered object normalized coordinates
   │   │   └── ...
   │   ├── 00001
@@ -174,7 +176,7 @@ mkdir nocs_data && cd nocs_data
   ```bash
   # merge camera_full_depth/train/????? to nocs_full/train/?????
   rsync -arv camera_full_depths/ nocs_full/
-rm -r camera_full_depths
+  rm -r camera_full_depths
   ```
   
 + Generate and run the pre-processing script
@@ -317,7 +319,10 @@ captra
 
 ### Code Structure
 
-Below is an overview of our code. Only the most relevant folders/files are shown.
+<details>
+<summary><b>See here for an overview of our code. Only the most relevant folders/files are shown.</b> </summary> 
+<p>
+
 
 ```bash
 CAPTRA
@@ -355,12 +360,15 @@ CAPTRA
     ├── train.py	# train
     └── train_nocs_mix.py	# finetune with a mixture of synthetic/real data
 ```
-
+</p>
+</details>
 
 
 ### Experiment Folder Structure
 
-For each experiment, a dedicated folder in `captra/runs` is organized as follows.
+<details>
+<summary><b>For each experiment, a dedicated folder in `captra/runs` is created. See here for its organization.</b> </summary> 
+<p>
 
 ```bash
 1_bottle_rot
@@ -378,8 +386,14 @@ For each experiment, a dedicated folder in `captra/runs` is organized as follows
 *: generated after testing with --save
 **: generated after running misc/eval/eval.py
 ```
+</p>
+</details>
 
 ### Dataset Folder Structure
+
+<details>
+<summary><b>See here for the organization of dataset folders.</b> </summary> 
+<p>
 
 ```bash
 nocs_data
@@ -424,7 +438,8 @@ sapien_data
 *: generated during training/testing
 **: training
 ```
-
+</p>
+</details>
 
 
 ## Acknowledgements
