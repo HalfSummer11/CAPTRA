@@ -30,7 +30,8 @@
 			<div id="main" style="padding-bottom:1em; padding-top: 5em; width: 60em; max-width: 70em; margin-left: auto; margin-right: auto;">
 					<section id="four">
 						
-						<h1 style="text-align: center; margin-bottom: 10px;"><font color="4e79a7">CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds</font></h1>
+						<h1 style="text-align: center; margin-bottom: 5px;"><font color="4e79a7">CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds</font></h1>
+						<h3 style="text-align: center; margin-bottom: 10px;"><font color="4ea9a7">ICCV 2021(Oral)</font></h3>
 						<!--<h3 style="text-align: center; margin-bottom: 0;"><font color="4ea9a7"></font></h3>-->
 						<!--<section>
 							<div class="box alt" style="margin-top: 2em;" >
@@ -53,13 +54,14 @@
 						</section>-->
 
 
-						<span class="center"><img src="images/teaser.png" width="100%"></span>
+						<span class="center"><img src="images/teaser.jpeg" width="100%"></span>
 						<p style="text-align:left; width: 100%; margin-left: 0%">
 						<b>Figure 1</b>: Our method tracks 9DoF category-level poses (3D rotation, 3D translation, and 3D size) of novel rigid objects as well as parts in articulated objects from live point cloud streams. We demonstrate: 
     (a) our method can reliably track rigid object poses from the challenging NOCS-REAL275 dataset; 
     (b) our method can perfectly track articulated objects with big global and articulated motions from the SAPIEN datasets;
-    (c) trained only on SAPIEN, our model can directly generalize to real laptops from BMVC dataset. In all cases, our method significantly outperforms the previous state-of-the-arts and baselines.
-    Here we visualize the estimated 9DoF poses as 3D amodal bounding boxes: green boxes indicate in tracking whereas red boxes indicate off tracking. </p>
+    (c)(d) trained only on SAPIEN, our model can directly generalize to novel real laptops from BMVC dataset, and novel real drawers under robotic interaction. In all cases, our method significantly outperforms the previous state-of-the-arts and baselines.
+    Here we visualize the estimated 9DoF poses as 3D bounding boxes: green boxes indicate in tracking whereas red boxes indicate off tracking. </p>
+
 						<section>
 							<div class="box alt" style="margin-bottom: 2em;" >
 								<div class="row 50% uniform" style="width: 80%; margin-left: 35%">
@@ -117,15 +119,17 @@
 						<!--<span class="center"><img src="images/results/bmvc_ours.gif" width="52%"> <img src="images/results/real_scissors.gif" width="39%"></span>
 						<span class="center"><img src="images/results/real_drawers_ours.gif" width="52%"></span>-->
 						<div style="row">
-							<div style="float:left; width: 52%;">
-								<img src="images/results/bmvc_ours.gif" width="100%">
+							<div style="float:left; width: 50%;">
 								<img src="images/results/real_drawers.gif" width="100%">
+								<img src="images/results/robot_drawers_0.gif" width="100%">
+								<img src="images/results/robot_drawers_1.gif" width="100%">
 							</div>
-							<div style="float:left; margin-left: 10px; width: 39%;">
+							<div style="float:left; margin-left: 10px; width: 41%;">
 								<img src="images/results/real_scissors.gif" width="100%" style="margin-top: 33%">
+								<img src="images/results/bmvc_ours.gif" width="100%">
 							</div>
 						</div>
-						<p style="clear: both; text-align: left; width: 94%; margin-left: 0%"><b>Result visualization on real data.</b> Our models, trained on synthetic data only, can directly generalize to real data, assuming the availability of object masks but not part masks. Top-left: results on a laptop trajectory from BMVC dataset. Bottom-left: results on a real drawers trajectory we captured, where a Kinova Jaco2 arm pulls out the top drawer. Right: results on a real scissors trajectory we captured.</p>
+						<p style="clear: both; text-align: left; width: 94%; margin-left: 0%"><b>Result visualization on real data.</b> Our models, trained on synthetic data only, can directly generalize to real data, assuming the availability of object masks but not part masks. Left: results on real drawers trajectories we captured, where a Kinova Jaco2 arm interacts with the drawers. Top-right: results on a real scissors trajectory we captured. Bottom-right: Right: results on a laptop trajectory from BMVC dataset.</p>
 
 
 						<hr style="margin-top: 2em;">
@@ -188,10 +192,10 @@
 						<div class="row" style="margin-top: 1em">
 							<div class="12u$ 1u$(xsmall)">
 								<h3>Bibtex</h3>
-								<pre style="text-align:left;"><code>@article{weng2021captra,
+								<pre style="text-align:left;"><code>@inproceedings{weng2021captra,
 	title={CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds},
 	author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J},
-	journal={arXiv preprint arXiv:2104.03437},
+	booktitle={Proceedings of the IEEE International Conference on Computer Vision},
 	year={2021}
 }</code></pre>
 							</div>
