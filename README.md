@@ -1,11 +1,11 @@
-# CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds
+# CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds (ICCV 2021, Oral)
 
-![teaser](images/teaser.png)
+![teaser](images/teaser.jpeg)
 
 
 ## Introduction
 
-This is the official PyTorch implementation of our paper [CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds](https://arxiv.org/abs/2104.03437). This repository is still under construction.
+This is the official PyTorch implementation of our paper [CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds](https://arxiv.org/abs/2104.03437). 
 
 For more information, please visit our [project page](https://yijiaweng.github.io/CAPTRA).
 
@@ -19,17 +19,19 @@ For more information, please visit our [project page](https://yijiaweng.github.i
 If you find our work useful in your research, please consider citing:
 
 ```
-@article{weng2021captra,
+@inproceedings{weng2021captra,
 	title={CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds},
 	author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J},
-	journal={arXiv preprint arXiv:2104.03437},
+	booktitle={Proceedings of the IEEE International Conference on Computer Vision},
 	year={2021}
+}
 ```
 
 ## Updates
 
 + [2021/04/14] Released code, data, and pretrained models for testing & evaluation.
 + [2021/04/22] Released code and data for training.
++ [2021/07/22] Our paper has been accepted by ICCV 2021 as an oral presentation!
 
 ## Installation
 
