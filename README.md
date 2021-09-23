@@ -44,7 +44,7 @@ If you find our work useful in your research, please consider citing:
 + We recommend using [Anaconda](https://www.anaconda.com/) to create an environment named `captra` dedicated to this repository, by running the following:
 
   ```bash
-  conda env create -n captra python=3.7
+  conda create -n captra python=3.7
   conda activate captra
   ```
 
