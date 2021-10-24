@@ -23,9 +23,9 @@ If you find our work useful in your research, please consider citing:
 	title={CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds},
 	author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J.},
 	booktitle={Proceedings of the IEEE International Conference on Computer Vision (ICCV)},
-    month={October},
+    	month={October},
 	year={2021},
-    pages={13209-13218}
+    	pages={13209-13218}
 }
 ```
 
