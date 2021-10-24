@@ -21,9 +21,11 @@ If you find our work useful in your research, please consider citing:
 ```
 @inproceedings{weng2021captra,
 	title={CAPTRA: CAtegory-level Pose Tracking for Rigid and Articulated Objects from Point Clouds},
-	author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J},
-	booktitle={Proceedings of the IEEE International Conference on Computer Vision},
-	year={2021}
+	author={Weng, Yijia and Wang, He and Zhou, Qiang and Qin, Yuzhe and Duan, Yueqi and Fan, Qingnan and Chen, Baoquan and Su, Hao and Guibas, Leonidas J.},
+	booktitle={Proceedings of the IEEE International Conference on Computer Vision (ICCV)},
+    month={October},
+	year={2021},
+    pages={13209-13218}
 }
 ```
 
@@ -32,6 +34,7 @@ If you find our work useful in your research, please consider citing:
 + [2021/04/14] Released code, data, and pretrained models for testing & evaluation.
 + [2021/04/22] Released code and data for training.
 + [2021/07/22] Our paper has been accepted by ICCV 2021 as an oral presentation!
++ [2021/10/24] Released code for visualization.
 
 ## Installation
 
@@ -44,7 +47,7 @@ If you find our work useful in your research, please consider citing:
 + We recommend using [Anaconda](https://www.anaconda.com/) to create an environment named `captra` dedicated to this repository, by running the following:
 
   ```bash
-  conda env create -n captra python=3.7
+  conda create -n captra python=3.7
   conda activate captra
   ```
 
@@ -272,6 +275,14 @@ mkdir sapien_data && cd sapien_data
   ```
 
   
+### Visualization
+
++ To visualize the pose predictions as 3D bounding boxes, run the corresponding line in `CAPTRA/scripts/visualize.sh`, e.g. for NOCS-REAL275, running the following will generate bounding boxes for all categories.
+
+  ```bash
+  python misc/visualize/visualize_tracking_nocs.py --img_path ../data/nocs_data/nocs_full/real_test --exp_path ../runs --output_path ../nocs_viz --save_fig
+  ```
+
 
 ## Training
 

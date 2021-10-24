@@ -72,6 +72,19 @@ def tensor_bbox_from_corners(corners, device):
     return torch.stack(pts, dim=-2)  # [Bs, 8, 3]
 
 
+def np_bbox_from_corners(corners):  # corners: [Bs, 2, 3]
+    if isinstance(corners, np.ndarray):
+        corners = torch.tensor(corners).float()
+    bbox_shape = corners.shape[:-2] + (8, 3)  # [Bs, 8, 3]
+    bbox = torch.zeros(*bbox_shape)
+    for i in range(8):
+        x, y, z = (i % 4) // 2, i // 4, i % 2
+        bbox[..., i, 0] = corners[..., x, 0]
+        bbox[..., i, 1] = corners[..., y, 1]
+        bbox[..., i, 2] = corners[..., z, 2]
+    return bbox
+
+
 def yaxis_from_corners(corners, device):  # [B, P, 2, 3]
     if not isinstance(corners, torch.Tensor):
         corners = torch.tensor(corners).to(device).float()

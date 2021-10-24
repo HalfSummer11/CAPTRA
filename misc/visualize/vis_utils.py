@@ -196,3 +196,112 @@ def safe_save_fig(fig, save_path):
     fig.savefig(save_path)
 
 
+def compute_lims_for_pts(pts_list):
+    all_points = np.concatenate(pts_list, axis=0)
+    assert len(all_points) > 0, 'all zeros!'
+    corners = np.stack([np.min(all_points, axis=0), np.max(all_points, axis=0)], axis=0)
+    center = corners.mean(axis=0)  # [1, 3]
+    max_size = np.max(corners[1] - corners[0]) * 0.4
+    lims = np.stack([center - max_size, center + max_size], axis=0).swapaxes(0, 1)
+    return lims
+
+
+def plot_bbox_with_pts(points_list, bcm, valid=None, view_angle=None, lims=None,
+                       dpi=100, s=2, save_path=None, show_fig=True, save_fig=False, pretty=False):
+    """
+    points_list: per-part [N_i, 3]
+    bcm: list of [8, 3]
+    """
+
+    fig = plt.figure(dpi=dpi, figsize=(6, 6))
+    if lims is None:
+        lims = compute_lims_for_pts(points_list)
+
+    if valid is None:
+        valid = np.ones(len(points_list))
+
+    ax = plt.subplot(1, 1, 1, projection='3d', proj_type='ortho')
+    if view_angle == None:
+        ax.view_init(elev=0, azim=180)
+    else:
+        ax.view_init(elev=view_angle[0], azim=view_angle[1])
+    colors = ['dodgerblue', 'gold', 'mediumorchid', 'silver']
+    for i, points in enumerate(points_list):
+        p = ax.scatter(points[:, 0], points[:, 1], points[:, 2],  marker='o', s=s,  c=colors[i])
+
+    # color_list = ['red', 'yellow', 'blue', 'green']
+    for j in range(len(bcm)):
+        color_s = 'lime' if valid[j] else 'red'
+        lw_s = 2
+        ax.plot3D([bcm[j][0][0], bcm[j][2][0], bcm[j][6][0], bcm[j][4][0], bcm[j][0][0]],
+                  [bcm[j][0][1], bcm[j][2][1], bcm[j][6][1], bcm[j][4][1], bcm[j][0][1]],
+                  [bcm[j][0][2], bcm[j][2][2], bcm[j][6][2], bcm[j][4][2], bcm[j][0][2]], color=color_s,
+                  linewidth=lw_s)
+
+        ax.plot3D([bcm[j][1][0], bcm[j][3][0], bcm[j][7][0], bcm[j][5][0], bcm[j][1][0]],
+                  [bcm[j][1][1], bcm[j][3][1], bcm[j][7][1], bcm[j][5][1], bcm[j][1][1]],
+                  [bcm[j][1][2], bcm[j][3][2], bcm[j][7][2], bcm[j][5][2], bcm[j][1][2]], color=color_s,
+                  linewidth=lw_s)
+        for pair in [[0, 1], [2, 3], [4, 5], [6, 7]]:
+            ax.plot3D([bcm[j][pair[0]][0], bcm[j][pair[1]][0]],
+                      [bcm[j][pair[0]][1], bcm[j][pair[1]][1]],
+                      [bcm[j][pair[0]][2], bcm[j][pair[1]][2]], color=color_s, linewidth=lw_s)
+    plt.axis('off')
+    plt.grid('off')
+    set_axes_equal(ax, lims)
+    plt.tight_layout()
+    if show_fig:
+        plt.show()
+    if save_fig:
+        safe_save_fig(fig, save_path)
+
+    plt.close()
+    return lims
+
+
+def plot_bboxes_on_image(image, bboxes, valid_mask=None,
+                       show_fig=True, save_fig=False, out_path=None):
+    """
+    image: [h, w], 0 at the top
+    bbox: [num_objs, 8, 2]
+    valid_mask: [num_objs]
+    """
+    num_objs = len(bboxes)
+    if valid_mask is None:
+        valid_mask = np.ones(num_objs)
+
+    patches = []
+    for p in range(num_objs):
+        for i in range(8):
+            circle = Circle(bboxes[p, i], 15)
+            patches.append(circle)
+    colors = 255 * np.random.rand((len(patches)))
+    p = PatchCollection(patches, alpha=0)
+    p.set_array(np.array(colors))
+
+    height, width = image.shape[:2]
+    dpi = matplotlib.rcParams['figure.dpi']
+
+    fig = plt.figure(figsize=(width / float(dpi), height / float(dpi)))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.axis('off')
+    ax.imshow(image)
+    ax.add_collection(p)
+    for k in range(num_objs):
+        color = 'lime' if valid_mask[k] else 'red'
+        img_pts = bboxes[k]
+        pixels_all = [[0, 2, 6, 4, 0], [1, 3, 7, 5, 1], [0, 1], [2, 3], [6, 7], [4, 5]]
+        for pts_order in pixels_all:
+            line1 = []
+            for j in pts_order:
+                line1.append(tuple(img_pts[j]))
+            (line1_xs, line1_ys) = zip(*line1)
+            ax.add_line(Line2D(line1_xs, line1_ys, linewidth=1.5, color=color))
+
+    plt.tight_layout()
+    plt.axis('off')
+    if show_fig:
+        plt.show()
+    if save_fig:
+        safe_save_fig(fig, out_path)
+    plt.close()
