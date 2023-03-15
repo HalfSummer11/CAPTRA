@@ -172,7 +172,7 @@ def eval_single_part_iou(gt_corners, pred_corners, gt_pose, pred_pose, separate=
         gt_poses = []  # pred_pose: 'rotation': [B, P, 3, 3]
         for i in range(n):
             cur_pose = {key: gt_pose[key].clone() for key in ['translation', 'scale']}
-            cur_pose['rotation'] = torch.matmul(pred_pose['rotation'],
+            cur_pose['rotation'] = torch.matmul(gt_pose['rotation'],
                                                 y_rotation_matrix(2 * np.pi * i / float(n)).reshape(1, 1, 3, 3))
             gt_poses.append(cur_pose)
     else:
